@@ -1,24 +1,59 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Nav } from "@/components/Nav";
+import { Cover } from "@/components/Cover";
+import { Intro } from "@/components/Intro";
+import { InventionSection } from "@/components/InventionSection";
+import { SpreadMap } from "@/components/SpreadMap";
+import { Quiz } from "@/components/Quiz";
+import { Conclusion } from "@/components/Conclusion";
+import { Sources } from "@/components/Sources";
+import { inventions } from "@/data/inventions";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const title = "Trung Hoa cổ đại – Nền văn minh của sáng chế";
+const description =
+  "Bài thuyết trình Lịch sử về bốn phát minh của Trung Hoa cổ đại: giấy, la bàn, thuốc súng và kỹ thuật in, kèm nguồn sơ cấp, bản đồ lan truyền và câu đố tương tác.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title },
+      { name: "description", content: description },
+      { property: "og:title", content: title },
+      { property: "og:description", content: description },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen">
+      <Nav />
+      <main>
+        <Cover />
+        <Intro />
+        {inventions.map((inv, i) => (
+          <InventionSection key={inv.id} data={inv} index={i + 1} />
+        ))}
+        <SpreadMap />
+        <Quiz />
+        <Conclusion />
+        <Sources />
+      </main>
+      <footer className="border-t border-border bg-foreground py-10 text-background">
+        <div className="mx-auto max-w-6xl px-4">
+          <p className="font-display text-lg">Nhóm 4 · Lớp 10A · Môn Lịch sử</p>
+          <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
+            <li>Nguyễn Anh Dũng — Mở đầu & Kỹ thuật làm giấy</li>
+            <li>Trần Minh Tuấn — La bàn & Nguồn tham khảo</li>
+            <li>Lê Gia Hưng — Thuốc súng & Câu đố</li>
+            <li>Đào Quang Anh — Kỹ thuật in & Kết luận</li>
+          </ul>
+          <p className="mt-6 text-sm opacity-70">Thời gian thực hiện: tháng 9 năm 2026.</p>
+        </div>
+      </footer>
     </div>
   );
 }
