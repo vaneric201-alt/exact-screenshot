@@ -20,7 +20,7 @@ export function Nav() {
     const onScroll = () => {
       const max = document.body.scrollHeight - window.innerHeight;
       setProgress(max > 0 ? window.scrollY / max : 0);
-      let current = items[0].id;
+      let current = "mo-dau";
       for (const it of items) {
         const el = document.getElementById(it.id);
         if (el && el.getBoundingClientRect().top <= 140) current = it.id;

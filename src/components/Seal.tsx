@@ -15,7 +15,7 @@ export function Seal({
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setStamped(true);
           io.disconnect();
         }
