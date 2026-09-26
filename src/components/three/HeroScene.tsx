@@ -86,27 +86,39 @@ function Rig({ animate, children }: { animate: boolean; children: ReactNode }) {
   return <group ref={group}>{children}</group>;
 }
 
-/** Places the four objects around the title, tighter on portrait screens. */
+/**
+ * Places the four objects. Wide screens: a 2×2 cluster in the right-hand columns,
+ * beside the left-aligned title block. Narrow screens: tucked into the corners,
+ * clear of the stacked title.
+ */
 function Layout({ animate }: SceneProps) {
-  const { viewport } = useThree();
+  const { viewport, size } = useThree();
+  const wide = size.width >= 900 && viewport.aspect >= 1.2;
   const portrait = viewport.aspect < 1;
-  // Portrait: tuck the objects into the corners, clear of the stacked title.
-  const x = portrait ? viewport.width * 0.36 : Math.min(viewport.width * 0.36, 6);
-  const y = portrait ? viewport.height * 0.43 : viewport.height * 0.26;
-  const s = portrait ? 0.45 : 1;
+
+  let cx = 0;
+  let x = portrait ? viewport.width * 0.36 : Math.min(viewport.width * 0.36, 6);
+  let y = portrait ? viewport.height * 0.43 : viewport.height * 0.26;
+  let s = portrait ? 0.45 : 1;
+  if (wide) {
+    cx = viewport.width * 0.29;
+    x = Math.min(viewport.width * 0.11, 1.9);
+    y = viewport.height * 0.21;
+    s = 0.72;
+  }
 
   return (
     <>
-      <Float animate={animate} position={[-x, y, -0.5]} scale={s} seed={0}>
+      <Float animate={animate} position={[cx - x, y, -0.5]} scale={s} seed={0}>
         <PaperScroll />
       </Float>
-      <Float animate={animate} position={[x, y, -0.8]} scale={s} seed={1.3}>
+      <Float animate={animate} position={[cx + x, y, -0.8]} scale={s} seed={1.3}>
         <Compass animate={animate} />
       </Float>
-      <Float animate={animate} position={[-x, -y, -0.6]} scale={s} seed={2.1}>
+      <Float animate={animate} position={[cx - x, -y, -0.6]} scale={s} seed={2.1}>
         <Firework animate={animate} />
       </Float>
-      <Float animate={animate} position={[x, -y, -0.4]} scale={s} seed={3.7}>
+      <Float animate={animate} position={[cx + x, -y, -0.4]} scale={s} seed={3.7}>
         <TypeBlocks animate={animate} />
       </Float>
     </>

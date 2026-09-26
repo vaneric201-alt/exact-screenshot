@@ -2,39 +2,31 @@ import { useRef } from "react";
 import { motion } from "motion/react";
 import { HeroCanvas } from "./HeroCanvas";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
+import { chapters, chapterNum } from "@/data/chapters";
 
-const chars = [
-  { han: "紙", id: "giay", label: "Giấy" },
-  { han: "指南", id: "laban", label: "La bàn" },
-  { han: "火藥", id: "thuocsung", label: "Thuốc súng" },
-  { han: "印", id: "in", label: "Kỹ thuật in" },
-];
+const inventionIds = ["giay", "laban", "thuocsung", "in"];
+const tiles = chapters.filter((c) => inventionIds.includes(c.id));
 
 const list = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.6 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.5 } },
 };
 const item = {
-  hidden: { opacity: 0, y: 24, rotateX: -35 },
-  show: {
-    opacity: 1,
-    y: 0,
-    rotateX: 0,
-    transition: { type: "spring", stiffness: 140, damping: 16 },
-  },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 } as const;
 
 export function Cover() {
   const root = useRef<HTMLElement>(null);
 
-  // Content drifts up and fades as the hero scrolls away.
+  // The title block eases up and fades as the hero scrolls away.
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(MOTION_OK, () => {
         gsap.to("[data-hero-content]", {
-          yPercent: -18,
-          autoAlpha: 0.15,
+          yPercent: -12,
+          autoAlpha: 0.2,
           ease: "none",
           scrollTrigger: {
             trigger: root.current,
@@ -53,60 +45,63 @@ export function Cover() {
     <section
       id="bia"
       ref={root}
-      className="hero-lacquer relative isolate flex min-h-[calc(100svh-3.5rem)] items-center overflow-hidden text-[var(--paper-deep)]"
+      aria-labelledby="bia-title"
+      className="hero-lacquer relative isolate flex min-h-[calc(100svh-var(--topbar-h))] items-center overflow-hidden text-on-dark lg:min-h-svh"
     >
       <HeroCanvas />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--ink)_70%,transparent)_0%,transparent_60%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,color-mix(in_oklab,var(--ink)_75%,transparent)_0%,transparent_65%)]"
       />
 
-      <div
-        data-hero-content
-        className="relative z-10 mx-auto w-full max-w-5xl px-4 py-20 text-center sm:py-28"
-      >
-        <p className="eyebrow text-[var(--gold)]">Bài thuyết trình Lịch sử</p>
-        <h1 className="animate-ink mx-auto mt-5 max-w-4xl text-[clamp(2.4rem,1.2rem+5vw,5rem)] leading-[1.05] text-balance text-[var(--background)] drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]">
-          Trung Hoa cổ đại <span className="text-gold-sheen">–</span> Nền văn minh của sáng chế
-        </h1>
-        <div className="mx-auto mt-8 h-px max-w-xl bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent opacity-70" />
+      <div className="page relative z-10 py-section">
+        <div className="grid-12">
+          <div data-hero-content className="col-span-12 lg:col-span-7">
+            <p className="kicker text-gold">Bài thuyết trình Lịch sử</p>
+            <h1
+              id="bia-title"
+              className="animate-ink mt-s4 text-display text-on-dark drop-shadow-[0_4px_24px_rgba(0,0,0,0.45)]"
+            >
+              Trung Hoa cổ đại <span className="text-gold">–</span> Nền văn minh của sáng chế
+            </h1>
+            <div className="mt-s5 h-px max-w-md bg-gradient-to-r from-gold to-transparent" />
+            <p className="mt-s5 text-small text-on-dark-muted">
+              Nhóm 4 · Nguyễn Anh Dũng · Trần Minh Tuấn · Lê Gia Hưng · Đào Quang Anh · Môn Lịch sử
+            </p>
 
-        <motion.ul
-          variants={list}
-          initial="hidden"
-          animate="show"
-          className="mt-10 grid grid-cols-2 gap-3 [perspective:800px] sm:flex sm:flex-wrap sm:items-stretch sm:justify-center sm:gap-5"
-        >
-          {chars.map((c) => (
-            <motion.li key={c.id} variants={item}>
-              <motion.a
-                href={`#${c.id}`}
-                whileHover={{ y: -6, scale: 1.04 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                className="group block rounded-md border border-[color-mix(in_oklab,var(--gold)_35%,transparent)] bg-[color-mix(in_oklab,var(--ink)_45%,transparent)] px-5 py-4 text-center backdrop-blur-sm transition-colors hover:border-[var(--gold)] hover:bg-[color-mix(in_oklab,var(--seal)_35%,transparent)] sm:min-w-36"
-              >
-                <span className="han block text-5xl text-[var(--background)] transition-colors group-hover:text-[var(--gold)] sm:text-6xl">
-                  {c.han}
-                </span>
-                <span className="mt-1 block text-sm text-[color-mix(in_oklab,var(--background)_75%,transparent)] group-hover:text-[var(--background)]">
-                  {c.label}
-                </span>
-              </motion.a>
-            </motion.li>
-          ))}
-        </motion.ul>
-
-        <p className="mt-10 text-sm text-[color-mix(in_oklab,var(--background)_70%,transparent)]">
-          Nhóm 4 · Nguyễn Anh Dũng · Trần Minh Tuấn · Lê Gia Hưng · Đào Quang Anh · Môn Lịch sử
-        </p>
+            <motion.ol
+              variants={list}
+              initial="hidden"
+              animate="show"
+              aria-label="Bốn phát minh"
+              className="mt-s6 grid max-w-xl grid-cols-2 gap-s3 sm:grid-cols-4"
+            >
+              {tiles.map((c) => (
+                <motion.li key={c.id} variants={item}>
+                  <a
+                    href={`#${c.id}`}
+                    className="surface-dark group flex h-full flex-col p-s4 transition-colors duration-[var(--dur-base)] hover:border-gold hover:bg-seal/40"
+                  >
+                    <span className="text-caption tabular-nums text-gold">{chapterNum(c.num)}</span>
+                    <span aria-hidden className="han mt-s1 text-h1 leading-none text-on-dark">
+                      {c.han}
+                    </span>
+                    <span className="mt-s2 text-small text-on-dark-muted group-hover:text-on-dark">
+                      {c.label}
+                    </span>
+                  </a>
+                </motion.li>
+              ))}
+            </motion.ol>
+          </div>
+        </div>
       </div>
 
       <div
         aria-hidden
-        className="absolute bottom-6 left-1/2 h-12 w-px -translate-x-1/2 overflow-hidden bg-[color-mix(in_oklab,var(--gold)_25%,transparent)]"
+        className="absolute bottom-s5 left-1/2 h-12 w-px -translate-x-1/2 overflow-hidden bg-gold/25"
       >
-        <span className="block h-1/2 w-full animate-[scroll-cue_1.8s_ease-in-out_infinite] bg-[var(--gold)]" />
+        <span className="block h-1/2 w-full animate-[scroll-cue_1.8s_ease-in-out_infinite] bg-gold" />
       </div>
     </section>
   );

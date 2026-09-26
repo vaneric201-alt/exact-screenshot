@@ -31,7 +31,7 @@ export function Seal({ han, size = "md" }: { han: string; size?: "sm" | "md" | "
     <div
       ref={ref}
       aria-hidden
-      className={`${dim} ${stamped ? "animate-seal" : "opacity-0"} grid shrink-0 place-items-center rounded-[3px] bg-seal text-seal-foreground han leading-none tracking-tight`}
+      className={`${dim} ${stamped ? "animate-seal" : "opacity-0"} grid shrink-0 place-items-center rounded-sm bg-seal text-seal-foreground han leading-none tracking-tight`}
       style={{
         boxShadow: "inset 0 0 0 2px color-mix(in oklab, var(--background) 55%, transparent)",
       }}

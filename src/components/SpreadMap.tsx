@@ -1,38 +1,9 @@
 import { useRef } from "react";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { spread } from "@/data/spread";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
-import { SectionHeader } from "./SectionHeader";
+import { Chapter } from "./layout/Chapter";
 
-const routes = [
-  {
-    id: "giay",
-    label: "Giấy",
-    color: "var(--foreground)",
-    d: "M560 190 C 460 150, 330 150, 250 200 C 180 240, 130 250, 90 245",
-    stops: ["Triều Tiên 610", "Samarkand 751", "Baghdad 793", "Tây Ban Nha 1150"],
-  },
-  {
-    id: "laban",
-    label: "La bàn",
-    color: "var(--bronze)",
-    d: "M570 230 C 480 300, 360 320, 250 290 C 180 270, 130 270, 95 275",
-    stops: ["Đông Nam Á tk XII", "Ả Rập tk XII", "Châu Âu tk XIII"],
-  },
-  {
-    id: "thuocsung",
-    label: "Thuốc súng",
-    color: "var(--seal)",
-    d: "M565 210 C 470 210, 350 230, 255 245 C 185 255, 135 260, 100 260",
-    stops: ["Mông Cổ tk XIII", "Ả Rập tk XIII", "Châu Âu tk XIV"],
-  },
-  {
-    id: "in",
-    label: "Kỹ thuật in",
-    color: "var(--celadon)",
-    d: "M575 170 C 500 120, 360 130, 260 175 C 190 205, 140 215, 100 215",
-    stops: ["Triều Tiên tk VIII", "Nhật Bản tk VIII", "Châu Âu ~1450"],
-  },
-];
+const routes = spread;
 
 const cities = [
   { name: "Trường An", x: 560, y: 200 },
@@ -43,8 +14,7 @@ const cities = [
 ];
 
 export function SpreadMap() {
-  const root = useRef<HTMLElement>(null);
-  useScrollReveal(root);
+  const root = useRef<HTMLDivElement>(null);
 
   // Routes are drawn from Trường An westwards as the map scrolls through the viewport,
   // each led by a glowing head. The dashed look is kept by revealing it through a mask.
@@ -99,20 +69,10 @@ export function SpreadMap() {
   );
 
   return (
-    <section
-      id="lan-truyen"
-      ref={root}
-      className="relative overflow-hidden border-t border-border bg-[var(--paper-deep)]"
-    >
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:py-28">
-        <SectionHeader
-          title="Bản đồ lan truyền"
-          subtitle="Bốn phát minh đi từ Trung Hoa ra thế giới"
-          ghost="路"
-        />
-
-        <div data-reveal="up" className="paper-card mt-10 overflow-x-auto p-4 sm:p-6">
-          <svg data-map viewBox="0 0 640 360" className="h-auto w-full min-w-[620px]">
+    <Chapter id="lan-truyen" tagline="Bốn phát minh đi từ Trung Hoa ra thế giới" tone="deep">
+      <div ref={root} className="mt-block">
+        <div data-reveal className="surface-raised overflow-x-auto p-s4 sm:p-s5">
+          <svg data-map viewBox="0 0 640 360" className="h-auto w-full min-w-[560px]">
             <defs>
               {routes.map((r) => (
                 <mask key={r.id} id={`route-mask-${r.id}`} maskUnits="userSpaceOnUse">
@@ -181,21 +141,22 @@ export function SpreadMap() {
           </svg>
         </div>
 
-        <ul data-reveal-stagger className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul data-reveal-stagger className="grid-12 mt-s5">
           {routes.map((r) => (
-            <li
-              key={r.id}
-              className="paper-card p-5 transition-transform duration-300 hover:-translate-y-1"
-            >
-              <p className="flex items-center gap-2 font-display font-bold">
-                <span className="h-1 w-6 rounded" style={{ backgroundColor: r.color }} />
+            <li key={r.id} className="surface col-span-12 p-s5 sm:col-span-6 lg:col-span-3">
+              <p className="flex items-center gap-s2 font-display text-h4 font-bold">
+                <span
+                  aria-hidden
+                  className="h-1 w-6 rounded-full"
+                  style={{ backgroundColor: r.color }}
+                />
                 {r.label}
               </p>
-              <p className="mt-2 text-sm text-muted-foreground">{r.stops.join(" → ")}</p>
+              <p className="mt-s2 text-small text-muted-foreground">{r.stops.join(" → ")}</p>
             </li>
           ))}
         </ul>
       </div>
-    </section>
+    </Chapter>
   );
 }

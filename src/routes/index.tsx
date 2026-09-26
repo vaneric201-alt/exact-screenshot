@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MotionConfig } from "motion/react";
-import { Nav } from "@/components/Nav";
+import { ChapterNav } from "@/components/ChapterNav";
 import { Cover } from "@/components/Cover";
 import { Intro } from "@/components/Intro";
 import { InventionSection } from "@/components/InventionSection";
@@ -31,31 +31,45 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen">
-        <Nav />
+      <a
+        href="#mo-dau"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-s4 focus:top-s4 focus:z-[60] focus:rounded-md focus:bg-primary focus:px-s4 focus:py-s2 focus:text-primary-foreground"
+      >
+        Bỏ qua trang bìa
+      </a>
+      <ChapterNav />
+      <div className="min-h-screen lg:pl-rail">
         <main>
           <Cover />
           <Intro />
-          {inventions.map((inv, i) => (
-            <InventionSection key={inv.id} data={inv} index={i + 1} />
+          {inventions.map((inv) => (
+            <InventionSection key={inv.id} data={inv} />
           ))}
           <SpreadMap />
           <Quiz />
           <Conclusion />
           <Sources />
         </main>
-        <footer className="hero-lacquer border-t border-border py-14 text-background">
-          <div className="mx-auto max-w-6xl px-4">
-            <p className="font-display text-xl text-[var(--gold)]">
-              Nhóm 4 · Lớp 10A · Môn Lịch sử
-            </p>
-            <ul className="mt-4 grid gap-2 text-sm sm:grid-cols-2 lg:grid-cols-4">
-              <li>Nguyễn Anh Dũng — Mở đầu & Kỹ thuật làm giấy</li>
-              <li>Trần Minh Tuấn — La bàn & Nguồn tham khảo</li>
-              <li>Lê Gia Hưng — Thuốc súng & Câu đố</li>
-              <li>Đào Quang Anh — Kỹ thuật in & Kết luận</li>
+        <footer className="hero-lacquer py-section text-on-dark">
+          <div className="page">
+            <p className="font-display text-h3 text-gold">Nhóm 4 · Lớp 10A · Môn Lịch sử</p>
+            <ul className="grid-12 mt-s5 text-small text-on-dark-muted">
+              <li className="col-span-12 sm:col-span-6 lg:col-span-3">
+                Nguyễn Anh Dũng — Mở đầu & Kỹ thuật làm giấy
+              </li>
+              <li className="col-span-12 sm:col-span-6 lg:col-span-3">
+                Trần Minh Tuấn — La bàn & Nguồn tham khảo
+              </li>
+              <li className="col-span-12 sm:col-span-6 lg:col-span-3">
+                Lê Gia Hưng — Thuốc súng & Câu đố
+              </li>
+              <li className="col-span-12 sm:col-span-6 lg:col-span-3">
+                Đào Quang Anh — Kỹ thuật in & Kết luận
+              </li>
             </ul>
-            <p className="mt-6 text-sm opacity-70">Thời gian thực hiện: tháng 9 năm 2026.</p>
+            <p className="mt-s5 text-small text-on-dark-muted">
+              Thời gian thực hiện: tháng 9 năm 2026.
+            </p>
           </div>
         </footer>
       </div>

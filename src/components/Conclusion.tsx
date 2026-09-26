@@ -1,9 +1,5 @@
-import { useRef } from "react";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 import { Seal } from "./Seal";
-import { SectionHeader } from "./SectionHeader";
-import { TiltCard } from "./TiltCard";
-
+import { Chapter } from "./layout/Chapter";
 const messages = [
   {
     han: "本",
@@ -23,46 +19,41 @@ const messages = [
 ];
 
 export function Conclusion() {
-  const root = useRef<HTMLElement>(null);
-  useScrollReveal(root);
-
   return (
-    <section id="ket-luan" ref={root} className="relative overflow-hidden border-t border-border">
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:py-28">
-        <SectionHeader
-          title="Kết luận & thông điệp"
-          subtitle="Phụ trách: Đào Quang Anh"
-          ghost="結"
-        />
+    <Chapter id="ket-luan" title="Kết luận & thông điệp" owner="Đào Quang Anh">
+      <ol data-reveal-stagger className="grid-12 mt-block">
+        {messages.map((m, i) => (
+          <li
+            key={m.han}
+            className="surface-raised col-span-12 flex flex-col items-start p-s6 md:col-span-4"
+          >
+            <div className="flex w-full items-center justify-between">
+              <Seal han={m.han} />
+              <span aria-hidden className="font-display text-h2 text-foreground/15 tabular-nums">
+                {i + 1}
+              </span>
+            </div>
+            <h3 className="mt-s5 text-h3">{m.title}</h3>
+            <p className="mt-s3 text-small">{m.text}</p>
+          </li>
+        ))}
+      </ol>
 
-        <div data-reveal-stagger className="mt-12 grid gap-6 md:grid-cols-3">
-          {messages.map((m) => (
-            <TiltCard key={m.han} className="h-full">
-              <div className="paper-card flex h-full flex-col items-start p-6">
-                <Seal han={m.han} />
-                <h3 className="mt-5 text-xl leading-snug text-balance">{m.title}</h3>
-                <p className="mt-3 text-[0.98rem]">{m.text}</p>
-              </div>
-            </TiltCard>
-          ))}
-        </div>
-
-        <div data-reveal="up" className="mt-14 border-l-4 border-celadon bg-accent p-6 sm:p-8">
-          <h3 className="text-xl">Minh bạch về AI</h3>
-          <ul className="mt-3 space-y-2 text-[0.98rem]">
-            <li>· Nhóm dùng AI để gợi ý dàn bài, tóm tắt bối cảnh và dịch một số đoạn trích.</li>
-            <li>
-              · Nhóm không dùng AI để viết thay phần nhận xét và kết luận — đó là quan điểm riêng
-              của nhóm.
-            </li>
-            <li>
-              · Mọi số liệu, niên đại và trích dẫn đều được đối chiếu lại với sách và hồ sơ bảo tàng
-              nêu ở mục Nguồn tham khảo. Những chỗ AI trả lời sai đã được ghi lại công khai trong
-              phần “Phản tư khi dùng AI”.
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
+      <aside data-reveal className="mt-block rounded-lg border-l-4 border-celadon bg-accent p-s6">
+        <h3 className="text-h3">Minh bạch về AI</h3>
+        <ul className="mt-s3 space-y-s2">
+          <li>· Nhóm dùng AI để gợi ý dàn bài, tóm tắt bối cảnh và dịch một số đoạn trích.</li>
+          <li>
+            · Nhóm không dùng AI để viết thay phần nhận xét và kết luận — đó là quan điểm riêng của
+            nhóm.
+          </li>
+          <li>
+            · Mọi số liệu, niên đại và trích dẫn đều được đối chiếu lại với sách và hồ sơ bảo tàng
+            nêu ở mục Nguồn tham khảo. Những chỗ AI trả lời sai đã được ghi lại công khai trong phần
+            “Phản tư khi dùng AI”.
+          </li>
+        </ul>
+      </aside>
+    </Chapter>
   );
 }

@@ -5,11 +5,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  /* Radius levels: sm (chips) · md (controls, cards) · lg (panels) · xl (hero tiles) */
+  --radius-sm: calc(var(--radius) - 0.125rem);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.625rem);
+  --radius-2xl: calc(var(--radius) + 1rem);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -37,47 +38,62 @@
   --color-gold: var(--gold);
   --color-lacquer: var(--lacquer);
   --color-ink: var(--ink);
+  --color-gold-ink: var(--gold-ink);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
   --font-display: "Noto Serif", Georgia, serif;
   --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
   --font-han: "Noto Serif SC", "Noto Serif", serif;
 }
 
+/* ------------------------------------------------------------------
+ * Design tokens
+ * Palette: red lacquer (primary) + gold + ink on paper. All text pairs
+ * are WCAG AA or better (checked in OKLCH → sRGB):
+ *   foreground / background 14.2 · muted-foreground / background 6.6
+ *   primary / background 6.2   · primary-foreground / primary 6.8
+ *   gold-ink / background 5.2  · gold / ink 9.5 · on-dark-muted / lacquer 9.6
+ * Gold (--gold) is for dark surfaces and decoration only; on paper use --gold-ink.
+ * ------------------------------------------------------------------ */
 :root {
-  --radius: 0.25rem;
+  --radius: 0.375rem;
 
-  /* Giấy tuyên #EFE8D8 */
-  --background: oklch(0.928 0.023 89);
-  --paper-deep: oklch(0.893 0.028 86);
-  /* Mực tàu #1F2326 */
-  --foreground: oklch(0.255 0.006 240);
-  --card: oklch(0.955 0.017 90);
-  --card-foreground: oklch(0.255 0.006 240);
-  --popover: oklch(0.955 0.017 90);
-  --popover-foreground: oklch(0.255 0.006 240);
-  /* Đỏ son chu sa #B23A2B */
-  --primary: oklch(0.497 0.156 32);
-  --primary-foreground: oklch(0.96 0.02 90);
-  --seal: oklch(0.497 0.156 32);
-  --seal-foreground: oklch(0.96 0.02 90);
-  /* Xanh men ngọc #7FA39A */
+  /* Giấy tuyên */
+  --background: oklch(0.94 0.02 88);
+  --paper-deep: oklch(0.9 0.026 86);
+  /* Mực tàu */
+  --foreground: oklch(0.23 0.012 40);
+  --card: oklch(0.97 0.014 90);
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+  /* Đỏ sơn mài / chu sa */
+  --primary: oklch(0.47 0.16 30);
+  --primary-foreground: oklch(0.97 0.015 90);
+  --seal: var(--primary);
+  --seal-foreground: var(--primary-foreground);
+  /* Xanh men ngọc · đồng xanh cổ */
   --celadon: oklch(0.668 0.035 172);
-  /* Đồng xanh cổ #4E6B5C */
-  --bronze: oklch(0.485 0.042 160);
-  /* Vàng kim #D4A24C · Sơn mài #2A0F0C · Mực đêm #140C0A */
-  --gold: oklch(0.74 0.12 78);
+  --bronze: oklch(0.44 0.045 160);
+  /* Vàng kim · vàng đậm cho chữ trên nền giấy · sơn mài · mực đêm */
+  --gold: oklch(0.78 0.12 80);
+  --gold-ink: oklch(0.5 0.1 70);
   --lacquer: oklch(0.24 0.06 30);
   --ink: oklch(0.17 0.02 40);
-  --secondary: oklch(0.9 0.02 88);
-  --secondary-foreground: oklch(0.255 0.006 240);
-  --muted: oklch(0.9 0.02 88);
-  --muted-foreground: oklch(0.47 0.012 240);
+  --on-dark: oklch(0.96 0.015 88);
+  --on-dark-muted: oklch(0.82 0.02 85);
+
+  --secondary: oklch(0.91 0.02 88);
+  --secondary-foreground: var(--foreground);
+  --muted: oklch(0.91 0.02 88);
+  --muted-foreground: oklch(0.44 0.02 50);
   --accent: oklch(0.93 0.022 172);
   --accent-foreground: oklch(0.3 0.03 165);
-  --destructive: oklch(0.497 0.156 32);
-  --destructive-foreground: oklch(0.96 0.02 90);
-  --border: oklch(0.8 0.022 85);
-  --input: oklch(0.8 0.022 85);
-  --ring: oklch(0.497 0.156 32);
+  --destructive: var(--primary);
+  --destructive-foreground: var(--primary-foreground);
+  --border: oklch(0.82 0.022 85);
+  --input: var(--border);
+  --ring: var(--primary);
 
   --paper-texture:
     repeating-linear-gradient(
@@ -94,9 +110,78 @@
       transparent 1px,
       transparent 7px
     );
-  --shadow-paper:
+
+  /* Layout */
+  --page-max: 76rem;
+  --gutter: clamp(1rem, 0.6rem + 1.6vw, 2rem);
+  --page-pad: clamp(1rem, 0.5rem + 2.5vw, 3rem);
+  --rail-w: 15rem;
+  --topbar-h: 3.5rem;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 450ms;
+}
+
+/* Scales exposed as Tailwind utilities: text-h1, py-section, shadow-e2, rounded-md … */
+@theme {
+  /* Type scale (fluid, 360px → 1440px) */
+  --text-display: clamp(2.5rem, 1.6rem + 4vw, 4.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h2: clamp(1.5rem, 1.3rem + 0.9vw, 2rem);
+  --text-h2--line-height: 1.2;
+  --text-h3: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  --text-h3--line-height: 1.3;
+  --text-h4: 1.0625rem;
+  --text-h4--line-height: 1.4;
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.7;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.6;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-overline: 0.75rem;
+  --text-overline--line-height: 1.4;
+  --text-overline--letter-spacing: 0.24em;
+
+  /* Spacing scale: s1–s8 (p-s4, gap-s3, mt-s5 …). Ordinal names avoid clashing
+     with Tailwind's container sizes (max-w-sm, max-w-xl …). */
+  --spacing-s1: 0.25rem;
+  --spacing-s2: 0.5rem;
+  --spacing-s3: 0.75rem;
+  --spacing-s4: 1rem;
+  --spacing-s5: 1.5rem;
+  --spacing-s6: 2rem;
+  --spacing-s7: 3rem;
+  --spacing-s8: 4rem;
+  --spacing-block: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  --spacing-section: clamp(4rem, 2.8rem + 5vw, 7rem);
+  --spacing-gutter: var(--gutter);
+  --spacing-rail: var(--rail-w);
+  --spacing-topbar: var(--topbar-h);
+
+  /* Elevation */
+  --shadow-e1:
+    0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
+    0 2px 6px -3px color-mix(in oklab, var(--foreground) 25%, transparent);
+  --shadow-e2:
     0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
     0 12px 28px -18px color-mix(in oklab, var(--foreground) 45%, transparent);
+  --shadow-e3:
+    0 1px 0 color-mix(in oklab, var(--foreground) 10%, transparent),
+    0 24px 48px -24px color-mix(in oklab, var(--foreground) 55%, transparent);
+  --shadow-seal: 0 6px 16px -8px var(--seal);
+
+  --container-page: var(--page-max);
+  --container-prose: 42rem;
 }
 
 @layer base {
@@ -104,63 +189,122 @@
     border-color: var(--color-border);
   }
 
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--topbar-h) + 1rem);
+    overflow-x: clip;
+  }
+
+  @media (min-width: 64rem) {
+    html {
+      scroll-padding-top: 1.5rem;
+    }
+  }
+
   body {
     background-color: var(--color-background);
     background-image: var(--paper-texture);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-size: 18px;
-    line-height: 1.75;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    overflow-x: clip;
   }
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.01em;
+    text-wrap: balance;
   }
 
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
   }
 }
+
+/* ---------- Layout primitives ---------- */
+
+/* Centered page container with fluid side padding. */
+@utility page {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--page-pad));
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* 12-column grid; children use col-span-* (all full width below md). */
+@utility grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--gutter);
+}
+
+/* Standard vertical rhythm for a chapter. */
+@utility chapter {
+  position: relative;
+  padding-block: var(--spacing-section);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ---------- Surfaces ---------- */
+
+@utility surface {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-e1);
+}
+
+@utility surface-raised {
+  background-color: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-e2);
+}
+
+@utility surface-sunken {
+  background-color: var(--paper-deep);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+@utility surface-dark {
+  background-color: color-mix(in oklab, var(--ink) 55%, transparent);
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, transparent);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Type helpers ---------- */
 
 @utility han {
   font-family: var(--font-han);
   font-weight: 600;
 }
 
+@utility kicker {
+  font-family: var(--font-sans);
+  font-size: var(--text-overline);
+  line-height: var(--text-overline--line-height);
+  font-weight: 600;
+  letter-spacing: var(--text-overline--letter-spacing);
+  text-transform: uppercase;
+}
+
 @utility rule-brush {
   height: 1px;
   background: linear-gradient(
     to right,
-    transparent,
-    color-mix(in oklab, var(--foreground) 45%, transparent) 15%,
+    color-mix(in oklab, var(--foreground) 45%, transparent),
     color-mix(in oklab, var(--foreground) 45%, transparent) 85%,
     transparent
   );
-}
-
-@utility paper-card {
-  background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-paper);
-}
-
-@utility section-title {
-  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
-  line-height: 1.1;
-  text-wrap: balance;
-}
-
-@utility eyebrow {
-  font-family: var(--font-sans);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
 }
 
 @utility preserve-3d {
@@ -187,25 +331,6 @@
     linear-gradient(180deg, var(--ink) 0%, var(--lacquer) 100%);
 }
 
-@utility text-gold-sheen {
-  background: linear-gradient(100deg, var(--gold) 20%, oklch(0.9 0.08 88) 45%, var(--gold) 70%);
-  background-size: 250% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: sheen 6s ease-in-out infinite;
-}
-
-@keyframes sheen {
-  0%,
-  100% {
-    background-position: 100% 0;
-  }
-  50% {
-    background-position: 0% 0;
-  }
-}
-
 @keyframes hero-fade {
   from {
     opacity: 0;
@@ -230,12 +355,10 @@
   0% {
     opacity: 0;
     filter: blur(14px);
-    letter-spacing: 0.12em;
   }
   100% {
     opacity: 1;
     filter: blur(0);
-    letter-spacing: -0.01em;
   }
 }
 
@@ -255,7 +378,7 @@
 }
 
 @utility animate-ink {
-  animation: ink-bleed 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: ink-bleed 1.4s var(--ease-out) both;
 }
 
 @utility animate-seal {

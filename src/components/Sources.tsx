@@ -1,6 +1,4 @@
-import { useRef } from "react";
-import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import { SectionHeader } from "./SectionHeader";
+import { Chapter } from "./layout/Chapter";
 
 const primary = [
   "Phạm Diệp, Hậu Hán thư – Hoạn giả liệt truyện, thế kỷ V.",
@@ -21,46 +19,33 @@ const secondary = [
 ];
 
 export function Sources() {
-  const root = useRef<HTMLElement>(null);
-  useScrollReveal(root);
-
   return (
-    <section
-      id="nguon"
-      ref={root}
-      className="relative overflow-hidden border-t border-border bg-[var(--paper-deep)]"
-    >
-      <div className="mx-auto max-w-6xl px-4 py-20 sm:py-28">
-        <SectionHeader title="Nguồn tham khảo" subtitle="Phụ trách: Trần Minh Tuấn" ghost="典" />
-
-        <div className="mt-10 grid gap-10 md:grid-cols-2">
-          <div data-reveal="left" className="paper-card p-6">
-            <h3 className="text-xl">Nguồn sơ cấp</h3>
-            <ol data-reveal-stagger className="mt-4 space-y-3 text-[0.98rem]">
-              {primary.map((s, i) => (
-                <li key={s}>
-                  <span className="text-primary">{i + 1}.</span> {s}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div data-reveal="right" className="paper-card p-6">
-            <h3 className="text-xl">Nguồn thứ cấp</h3>
-            <ol data-reveal-stagger className="mt-4 space-y-3 text-[0.98rem]">
-              {secondary.map((s, i) => (
-                <li key={s}>
-                  <span className="text-primary">{i + 1}.</span> {s}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-
-        <p data-reveal="up" className="mt-8 text-sm text-muted-foreground">
-          Nguồn ảnh: các hình minh họa trong bài do nhóm dựng lại theo phong cách tranh thủy mặc,
-          dựa trên mô tả trong các tài liệu nêu trên; không phải ảnh chụp hiện vật gốc.
-        </p>
+    <Chapter id="nguon" title="Nguồn tham khảo" owner="Trần Minh Tuấn" tone="deep">
+      <div className="grid-12 mt-block">
+        <SourceList title="Nguồn sơ cấp" items={primary} />
+        <SourceList title="Nguồn thứ cấp" items={secondary} />
       </div>
-    </section>
+
+      <p data-reveal className="mt-s5 max-w-prose text-small text-muted-foreground">
+        Nguồn ảnh: các hình minh họa trong bài do nhóm dựng lại theo phong cách tranh thủy mặc, dựa
+        trên mô tả trong các tài liệu nêu trên; không phải ảnh chụp hiện vật gốc.
+      </p>
+    </Chapter>
+  );
+}
+
+function SourceList({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div data-reveal className="surface col-span-12 p-s6 md:col-span-6">
+      <h3 className="text-h3">{title}</h3>
+      <ol className="mt-s4 divide-y divide-border text-small">
+        {items.map((s, i) => (
+          <li key={s} className="flex gap-s3 py-s2">
+            <span className="font-semibold text-primary tabular-nums">{i + 1}.</span>
+            <span>{s}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
