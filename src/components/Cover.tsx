@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { HeroCanvas } from "./HeroCanvas";
 import { gsap, useGSAP, MOTION_OK } from "@/lib/gsap";
 import { chapters, chapterNum } from "@/data/chapters";
+import { chapterHref, pageByNum } from "@/data/pages";
 
 const inventionIds = ["giay", "laban", "thuocsung", "in"];
 const tiles = chapters.filter((c) => inventionIds.includes(c.id));
@@ -79,7 +80,7 @@ export function Cover() {
               {tiles.map((c) => (
                 <motion.li key={c.id} variants={item}>
                   <a
-                    href={`#${c.id}`}
+                    href={chapterHref(c.id)}
                     className="surface-dark group flex h-full flex-col p-s4 transition-colors duration-[var(--dur-base)] hover:border-gold hover:bg-seal/40"
                   >
                     <span className="text-caption tabular-nums text-gold">{chapterNum(c.num)}</span>
@@ -88,6 +89,9 @@ export function Cover() {
                     </span>
                     <span className="mt-s2 text-small text-on-dark-muted group-hover:text-on-dark">
                       {c.label}
+                    </span>
+                    <span className="mt-s1 text-caption text-gold/80">
+                      Trang {c.page} · {pageByNum(c.page).presenter.split(" ").slice(-2).join(" ")}
                     </span>
                   </a>
                 </motion.li>

@@ -1,16 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout/PageShell";
-import { Cover } from "@/components/Cover";
-import { Intro } from "@/components/Intro";
 import { InventionHero } from "@/components/InventionHero";
 import { InventionSection } from "@/components/InventionSection";
 import { inventions } from "@/data/inventions";
+import { SpreadMap } from "@/components/SpreadMap";
+import { Quiz } from "@/components/Quiz";
+import { Conclusion } from "@/components/Conclusion";
+import { Sources } from "@/components/Sources";
 
-const title = "Trung Hoa cổ đại – Nền văn minh của sáng chế";
+const title = "Kỹ thuật in & Tổng kết – Trung Hoa cổ đại";
 const description =
-  "Trang 1/4 · Mở đầu và kỹ thuật làm giấy – bài thuyết trình Lịch sử về bốn phát minh của Trung Hoa cổ đại.";
+  "Trang 4/4 · Kỹ thuật in, bản đồ lan truyền bốn phát minh, câu đố, kết luận và nguồn tham khảo.";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/ky-thuat-in")({
   head: () => ({
     meta: [
       { title },
@@ -21,20 +23,22 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Index,
+  component: KyThuatInPage,
 });
 
-function Index() {
+function KyThuatInPage() {
   return (
-    <PageShell page={1} skipTo="mo-dau">
-      <Cover />
-      <Intro />
-      <InventionHero id="giay" />
+    <PageShell page={4} skipTo="in">
+      <InventionHero id="in" isPageTop />
       {inventions
-        .filter((inv) => inv.id === "giay")
+        .filter((inv) => inv.id === "in")
         .map((inv) => (
           <InventionSection key={inv.id} data={inv} />
         ))}
+      <SpreadMap />
+      <Quiz />
+      <Conclusion />
+      <Sources />
     </PageShell>
   );
 }

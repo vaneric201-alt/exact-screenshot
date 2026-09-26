@@ -8,12 +8,13 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
-import { chapters, chapterNum } from "@/data/chapters";
+import { chapters, chapterById, chapterNum } from "@/data/chapters";
+import { pages } from "@/data/pages";
 
 /** Reading line: a chapter becomes active once its top passes 35% of the viewport. */
 const LINE = 0.35;
 
-function useChapterProgress() {
+function useChapterProgress(page: number) {
   const [active, setActive] = useState<string | null>(null);
   const local = useMotionValue(0);
 
@@ -24,7 +25,7 @@ function useChapterProgress() {
       const line = window.innerHeight * LINE;
       let current: string | null = null;
       let rect: DOMRect | null = null;
-      for (const c of chapters) {
+      for (const c of chapters.filter((ch) => ch.page === page)) {
         const r = document.getElementById(c.id)?.getBoundingClientRect();
         if (r && r.top <= line) {
           current = c.id;
@@ -45,7 +46,7 @@ function useChapterProgress() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [local]);
+  }, [local, page]);
 
   return { active, local };
 }
@@ -54,21 +55,22 @@ function useChapterProgress() {
  * Sticky chapter navigator: a side rail on desktop, a compact top bar with a
  * drop-down chapter list on mobile. Both highlight the active chapter and show progress.
  */
-export function ChapterNav() {
-  const { active, local } = useChapterProgress();
+export function ChapterNav({ page }: { page: number }) {
+  const { active, local } = useChapterProgress(page);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26, restDelta: 0.001 });
   const angle = useTransform(progress, [0, 1], [0, 360]);
 
   return (
     <>
-      <SideRail active={active} local={local} progress={progress} angle={angle} />
-      <TopBar active={active} progress={progress} angle={angle} />
+      <SideRail page={page} active={active} local={local} progress={progress} angle={angle} />
+      <TopBar page={page} active={active} progress={progress} angle={angle} />
     </>
   );
 }
 
 type NavProps = {
+  page: number;
   active: string | null;
   progress: MotionValue<number>;
   angle: MotionValue<number>;
@@ -86,7 +88,13 @@ function Brand({ angle }: { angle: MotionValue<number> }) {
   );
 }
 
-function SideRail({ active, local, progress, angle }: NavProps & { local: MotionValue<number> }) {
+function SideRail({
+  page,
+  active,
+  local,
+  progress,
+  angle,
+}: NavProps & { local: MotionValue<number> }) {
   const pct = useTransform(progress, (v) => `${Math.round(v * 100)}%`);
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-rail flex-col border-r border-border bg-background/95 backdrop-blur-md lg:flex">
@@ -94,46 +102,73 @@ function SideRail({ active, local, progress, angle }: NavProps & { local: Motion
         <Brand angle={angle} />
       </div>
       <nav aria-label="Mục lục" className="flex-1 overflow-y-auto px-s3 py-s4">
-        <ol className="space-y-s1">
-          {chapters.map((c) => {
-            const on = active === c.id;
+        <ol className="space-y-s3">
+          {pages.map((p) => {
+            const here = p.num === page;
             return (
-              <li key={c.id}>
+              <li key={p.num}>
                 <a
-                  href={`#${c.id}`}
-                  aria-current={on ? "location" : undefined}
-                  className={`relative grid grid-cols-[2rem_1fr] items-baseline gap-s2 rounded-md px-s3 py-s2 text-small transition-colors duration-[var(--dur-base)] ${
-                    on
-                      ? "bg-card font-semibold text-foreground shadow-e1"
+                  href={here ? "#bia" : p.path}
+                  aria-current={here ? "page" : undefined}
+                  className={`flex items-baseline gap-s2 rounded-md px-s3 py-s1 text-caption ${
+                    here
+                      ? "font-semibold text-primary"
                       : "text-muted-foreground hover:bg-card/60 hover:text-foreground"
                   }`}
                 >
-                  {on && (
-                    <motion.span
-                      layoutId="rail-active"
-                      aria-hidden
-                      className="absolute inset-y-s2 left-0 w-[3px] rounded-full bg-primary"
-                      transition={{ type: "spring", stiffness: 420, damping: 36 }}
-                    />
-                  )}
-                  <span className={`tabular-nums ${on ? "text-primary" : ""}`}>
-                    {chapterNum(c.num)}
+                  <span className="shrink-0 uppercase tracking-widest tabular-nums">
+                    Trang {p.num}
                   </span>
-                  <span>
-                    {c.label}
-                    {on && (
-                      <span
-                        aria-hidden
-                        className="mt-s1 block h-0.5 overflow-hidden rounded-full bg-border"
-                      >
-                        <motion.span
-                          className="block h-full origin-left bg-primary"
-                          style={{ scaleX: local }}
-                        />
-                      </span>
-                    )}
-                  </span>
+                  <span className="truncate">{p.title}</span>
                 </a>
+                {here && (
+                  <ol className="mt-s1 space-y-s1">
+                    {chapters
+                      .filter((c) => c.page === page)
+                      .map((c) => {
+                        const on = active === c.id;
+                        return (
+                          <li key={c.id}>
+                            <a
+                              href={`#${c.id}`}
+                              aria-current={on ? "location" : undefined}
+                              className={`relative grid grid-cols-[2rem_1fr] items-baseline gap-s2 rounded-md px-s3 py-s2 text-small transition-colors duration-[var(--dur-base)] ${
+                                on
+                                  ? "bg-card font-semibold text-foreground shadow-e1"
+                                  : "text-muted-foreground hover:bg-card/60 hover:text-foreground"
+                              }`}
+                            >
+                              {on && (
+                                <motion.span
+                                  layoutId="rail-active"
+                                  aria-hidden
+                                  className="absolute inset-y-s2 left-0 w-[3px] rounded-full bg-primary"
+                                  transition={{ type: "spring", stiffness: 420, damping: 36 }}
+                                />
+                              )}
+                              <span className={`tabular-nums ${on ? "text-primary" : ""}`}>
+                                {chapterNum(c.num)}
+                              </span>
+                              <span>
+                                {c.label}
+                                {on && (
+                                  <span
+                                    aria-hidden
+                                    className="mt-s1 block h-0.5 overflow-hidden rounded-full bg-border"
+                                  >
+                                    <motion.span
+                                      className="block h-full origin-left bg-primary"
+                                      style={{ scaleX: local }}
+                                    />
+                                  </span>
+                                )}
+                              </span>
+                            </a>
+                          </li>
+                        );
+                      })}
+                  </ol>
+                )}
               </li>
             );
           })}
@@ -155,7 +190,7 @@ function SideRail({ active, local, progress, angle }: NavProps & { local: Motion
   );
 }
 
-function TopBar({ active, progress, angle }: NavProps) {
+function TopBar({ page, active, progress, angle }: NavProps) {
   const [open, setOpen] = useState(false);
   const current = chapters.find((c) => c.id === active);
 
@@ -211,29 +246,56 @@ function TopBar({ active, progress, angle }: NavProps) {
             transition={{ duration: 0.2 }}
             className="absolute inset-x-0 top-full max-h-[70svh] overflow-y-auto border-b border-border bg-background shadow-e3"
           >
+            <div className="page pt-s4">
+              <p className="kicker text-muted-foreground">Chọn trang</p>
+              <ol className="mt-s2 grid grid-cols-4 gap-s2">
+                {pages.map((p) => {
+                  const here = p.num === page;
+                  return (
+                    <li key={p.num}>
+                      <a
+                        href={here ? "#bia" : p.path}
+                        onClick={() => setOpen(false)}
+                        aria-current={here ? "page" : undefined}
+                        className={`flex min-h-14 flex-col items-center justify-center rounded-md border px-s1 text-center text-caption leading-tight ${
+                          here
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-card"
+                        }`}
+                      >
+                        <strong className="text-small tabular-nums">{p.num}</strong>
+                        {chapterById(p.invention).label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
             <ol className="page grid grid-cols-2 gap-s2 py-s4">
-              {chapters.map((c) => {
-                const on = active === c.id;
-                return (
-                  <li key={c.id}>
-                    <a
-                      href={`#${c.id}`}
-                      onClick={() => setOpen(false)}
-                      aria-current={on ? "location" : undefined}
-                      className={`flex min-h-11 items-center gap-s2 rounded-md border px-s3 text-small ${
-                        on
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border bg-card"
-                      }`}
-                    >
-                      <span className={`tabular-nums ${on ? "" : "text-primary"}`}>
-                        {chapterNum(c.num)}
-                      </span>
-                      {c.label}
-                    </a>
-                  </li>
-                );
-              })}
+              {chapters
+                .filter((c) => c.page === page)
+                .map((c) => {
+                  const on = active === c.id;
+                  return (
+                    <li key={c.id}>
+                      <a
+                        href={`#${c.id}`}
+                        onClick={() => setOpen(false)}
+                        aria-current={on ? "location" : undefined}
+                        className={`flex min-h-11 items-center gap-s2 rounded-md border px-s3 text-small ${
+                          on
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-card"
+                        }`}
+                      >
+                        <span className={`tabular-nums ${on ? "" : "text-primary"}`}>
+                          {chapterNum(c.num)}
+                        </span>
+                        {c.label}
+                      </a>
+                    </li>
+                  );
+                })}
             </ol>
           </motion.nav>
         )}

@@ -1,3 +1,4 @@
+import { chapterHref } from "@/data/pages";
 import { spread } from "@/data/spread";
 
 const MIN = 0;
@@ -31,7 +32,7 @@ export function Timeline() {
                 role="listitem"
                 className="grid grid-cols-[5.5rem_1fr] items-center gap-s3 sm:grid-cols-[7rem_1fr]"
               >
-                <a href={`#${s.id}`} className="text-small font-semibold hover:text-primary">
+                <a href={chapterHref(s.id)} className="text-small font-semibold hover:text-primary">
                   {s.label}
                 </a>
                 <div

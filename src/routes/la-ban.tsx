@@ -1,16 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout/PageShell";
-import { Cover } from "@/components/Cover";
-import { Intro } from "@/components/Intro";
 import { InventionHero } from "@/components/InventionHero";
 import { InventionSection } from "@/components/InventionSection";
 import { inventions } from "@/data/inventions";
 
-const title = "Trung Hoa cổ đại – Nền văn minh của sáng chế";
+const title = "La bàn – Trung Hoa cổ đại";
 const description =
-  "Trang 1/4 · Mở đầu và kỹ thuật làm giấy – bài thuyết trình Lịch sử về bốn phát minh của Trung Hoa cổ đại.";
+  "Trang 2/4 · La bàn: từ thìa Tư Nam thời Hán đến kim chỉ nam trên thuyền buôn nhà Tống.";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/la-ban")({
   head: () => ({
     meta: [
       { title },
@@ -21,17 +19,15 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Index,
+  component: LaBanPage,
 });
 
-function Index() {
+function LaBanPage() {
   return (
-    <PageShell page={1} skipTo="mo-dau">
-      <Cover />
-      <Intro />
-      <InventionHero id="giay" />
+    <PageShell page={2} skipTo="laban">
+      <InventionHero id="laban" isPageTop />
       {inventions
-        .filter((inv) => inv.id === "giay")
+        .filter((inv) => inv.id === "laban")
         .map((inv) => (
           <InventionSection key={inv.id} data={inv} />
         ))}

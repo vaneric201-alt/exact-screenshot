@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KyThuatInRouteImport } from './routes/ky-thuat-in'
+import { Route as LaBanRouteImport } from './routes/la-ban'
+import { Route as ThuocSungRouteImport } from './routes/thuoc-sung'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KyThuatInRoute = KyThuatInRouteImport.update({
+  id: '/ky-thuat-in',
+  path: '/ky-thuat-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaBanRoute = LaBanRouteImport.update({
+  id: '/la-ban',
+  path: '/la-ban',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ThuocSungRoute = ThuocSungRouteImport.update({
+  id: '/thuoc-sung',
+  path: '/thuoc-sung',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ky-thuat-in': typeof KyThuatInRoute
+  '/la-ban': typeof LaBanRoute
+  '/thuoc-sung': typeof ThuocSungRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ky-thuat-in': typeof KyThuatInRoute
+  '/la-ban': typeof LaBanRoute
+  '/thuoc-sung': typeof ThuocSungRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ky-thuat-in': typeof KyThuatInRoute
+  '/la-ban': typeof LaBanRoute
+  '/thuoc-sung': typeof ThuocSungRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/ky-thuat-in' | '/la-ban' | '/thuoc-sung'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/ky-thuat-in' | '/la-ban' | '/thuoc-sung'
+  id: '__root__' | '/' | '/ky-thuat-in' | '/la-ban' | '/thuoc-sung'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KyThuatInRoute: typeof KyThuatInRoute
+  LaBanRoute: typeof LaBanRoute
+  ThuocSungRoute: typeof ThuocSungRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ky-thuat-in': {
+      id: '/ky-thuat-in'
+      path: '/ky-thuat-in'
+      fullPath: '/ky-thuat-in'
+      preLoaderRoute: typeof KyThuatInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/la-ban': {
+      id: '/la-ban'
+      path: '/la-ban'
+      fullPath: '/la-ban'
+      preLoaderRoute: typeof LaBanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/thuoc-sung': {
+      id: '/thuoc-sung'
+      path: '/thuoc-sung'
+      fullPath: '/thuoc-sung'
+      preLoaderRoute: typeof ThuocSungRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KyThuatInRoute: KyThuatInRoute,
+  LaBanRoute: LaBanRoute,
+  ThuocSungRoute: ThuocSungRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -7,7 +7,7 @@ import * as THREE from "three";
  * Loaded with React.lazy from HeroCanvas, so nothing here runs during SSR.
  */
 
-const PALETTE = {
+export const PALETTE = {
   lacquer: "#8f2a1f",
   seal: "#b23a2b",
   gold: "#d4a24c",
@@ -19,7 +19,7 @@ const PALETTE = {
   clay: "#b8875a",
 };
 
-type SceneProps = { animate: boolean };
+export type SceneProps = { animate: boolean };
 
 export default function HeroScene({ animate }: SceneProps) {
   const wrap = useRef<HTMLDivElement>(null);
@@ -125,7 +125,7 @@ function Layout({ animate }: SceneProps) {
   );
 }
 
-function Float({
+export function Float({
   animate,
   position,
   scale,
@@ -156,7 +156,7 @@ function Float({
 
 /* ---------- Giấy: a half-unrolled hanging scroll ---------- */
 
-function PaperScroll() {
+export function PaperScroll() {
   const paperGeo = useMemo(() => {
     const g = new THREE.PlaneGeometry(1.5, 2, 12, 16);
     const pos = g.attributes["position"] as THREE.BufferAttribute;
@@ -226,7 +226,7 @@ function makeScrollTexture() {
 
 /* ---------- La bàn: bronze dial with a restless needle ---------- */
 
-function Compass({ animate }: SceneProps) {
+export function Compass({ animate }: SceneProps) {
   const needle = useRef<THREE.Group>(null);
   const state = useRef({ angle: 1.6, vel: 0, kick: 0 });
   const dialTexture = useMemo(() => makeDialTexture(), []);
@@ -279,7 +279,7 @@ function Compass({ animate }: SceneProps) {
   );
 }
 
-function makeDialTexture() {
+export function makeDialTexture() {
   const size = 256;
   const c = document.createElement("canvas");
   c.width = c.height = size;
@@ -324,7 +324,11 @@ function makeDialTexture() {
 
 const BURST = 260;
 
-function Firework({ animate }: SceneProps) {
+export function Firework({
+  animate,
+  phase = 0,
+  rocket = true,
+}: SceneProps & { phase?: number; rocket?: boolean }) {
   const points = useRef<THREE.Points>(null);
   const sprite = useMemo(() => makeSpriteTexture(), []);
   const { geometry, dirs } = useMemo(() => {
@@ -371,7 +375,7 @@ function Firework({ animate }: SceneProps) {
 
   useFrame(({ clock }) => {
     if (!animate) return;
-    apply((clock.elapsedTime % 2.6) / 2.6);
+    apply(((clock.elapsedTime + phase) % 2.6) / 2.6);
   });
 
   return (
@@ -387,7 +391,7 @@ function Firework({ animate }: SceneProps) {
           sizeAttenuation
         />
       </points>
-      <group rotation={[0, 0, -0.35]} position={[0, -0.5, 0]}>
+      <group rotation={[0, 0, -0.35]} position={[0, -0.5, 0]} visible={rocket}>
         <mesh>
           <cylinderGeometry args={[0.16, 0.16, 1.1, 24]} />
           <meshStandardMaterial color={PALETTE.seal} roughness={0.45} />
@@ -411,7 +415,7 @@ function Firework({ animate }: SceneProps) {
   );
 }
 
-function makeSpriteTexture() {
+export function makeSpriteTexture() {
   const c = document.createElement("canvas");
   c.width = c.height = 64;
   const ctx = c.getContext("2d");
@@ -430,7 +434,7 @@ function makeSpriteTexture() {
 
 const TYPE_CHARS = ["印", "書", "文", "字", "活", "版", "傳", "知", "典"];
 
-function TypeBlocks({ animate }: SceneProps) {
+export function TypeBlocks({ animate }: SceneProps) {
   const refs = useRef<(THREE.Mesh | null)[]>([]);
   const materials = useMemo(
     () =>
@@ -469,7 +473,7 @@ function TypeBlocks({ animate }: SceneProps) {
   );
 }
 
-function makeGlyphTexture(ch: string) {
+export function makeGlyphTexture(ch: string) {
   const c = document.createElement("canvas");
   c.width = c.height = 128;
   const ctx = c.getContext("2d");
@@ -489,7 +493,7 @@ function makeGlyphTexture(ch: string) {
 
 /* ---------- Ambient gold dust ---------- */
 
-function GoldDust({ animate }: SceneProps) {
+export function GoldDust({ animate }: SceneProps) {
   const ref = useRef<THREE.Points>(null);
   const sprite = useMemo(() => makeSpriteTexture(), []);
   const geometry = useMemo(() => {

@@ -4,7 +4,7 @@ import { useHydrated } from "@/hooks/use-hydrated";
 
 const HeroScene = lazy(() => import("./three/HeroScene"));
 
-function hasWebGL() {
+export function hasWebGL() {
   try {
     const c = document.createElement("canvas");
     return !!(c.getContext("webgl2") ?? c.getContext("webgl"));
@@ -13,7 +13,7 @@ function hasWebGL() {
   }
 }
 
-class SceneBoundary extends Component<
+export class SceneBoundary extends Component<
   { fallback: ReactNode; children: ReactNode },
   { failed: boolean }
 > {
