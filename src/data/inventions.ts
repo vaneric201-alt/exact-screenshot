@@ -70,8 +70,7 @@ export const inventions: Invention[] = [
       prompt1: "Ai là người phát minh ra giấy?",
       answer1: "Thái Luân phát minh ra giấy vào năm 105 sau Công nguyên.",
       wrong: "phát minh ra giấy",
-      prompt2:
-        "Có bằng chứng khảo cổ nào về giấy trước năm 105 không? Hãy nêu nguồn.",
+      prompt2: "Có bằng chứng khảo cổ nào về giấy trước năm 105 không? Hãy nêu nguồn.",
       answer2:
         "Có. Giấy Phóng Ma Than (Gansu) niên đại khoảng thế kỷ II TCN cho thấy giấy đã tồn tại trước Thái Luân; ông là người cải tiến và chuẩn hóa quy trình.",
       verified: "Đã đối chiếu với Hậu Hán thư và Needham (1985).",
@@ -184,8 +183,7 @@ export const inventions: Invention[] = [
       answer1:
         "Thuốc súng được quân đội nhà Đường chế tạo nhằm mục đích làm vũ khí chống quân xâm lược.",
       wrong: "quân đội nhà Đường chế tạo nhằm mục đích làm vũ khí",
-      prompt2:
-        "Ai thực sự tìm ra hỗn hợp này, và công thức thành văn sớm nhất nằm trong sách nào?",
+      prompt2: "Ai thực sự tìm ra hỗn hợp này, và công thức thành văn sớm nhất nằm trong sách nào?",
       answer2:
         "Các đạo sĩ luyện đan phát hiện ra hỗn hợp khi tìm thuốc trường sinh; công thức thành văn sớm nhất nằm trong Vũ kinh tổng yếu (1044) thời Tống.",
       verified: "Đã đối chiếu với Vũ kinh tổng yếu và Needham tập V.7.",

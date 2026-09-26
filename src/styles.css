@@ -34,6 +34,9 @@
   --color-celadon: var(--celadon);
   --color-bronze: var(--bronze);
   --color-paper-deep: var(--paper-deep);
+  --color-gold: var(--gold);
+  --color-lacquer: var(--lacquer);
+  --color-ink: var(--ink);
   --font-display: "Noto Serif", Georgia, serif;
   --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
   --font-han: "Noto Serif SC", "Noto Serif", serif;
@@ -60,6 +63,10 @@
   --celadon: oklch(0.668 0.035 172);
   /* Đồng xanh cổ #4E6B5C */
   --bronze: oklch(0.485 0.042 160);
+  /* Vàng kim #D4A24C · Sơn mài #2A0F0C · Mực đêm #140C0A */
+  --gold: oklch(0.74 0.12 78);
+  --lacquer: oklch(0.24 0.06 30);
+  --ink: oklch(0.17 0.02 40);
   --secondary: oklch(0.9 0.02 88);
   --secondary-foreground: oklch(0.255 0.006 240);
   --muted: oklch(0.9 0.02 88);
@@ -87,7 +94,8 @@
       transparent 1px,
       transparent 7px
     );
-  --shadow-paper: 0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
+  --shadow-paper:
+    0 1px 0 color-mix(in oklab, var(--foreground) 8%, transparent),
     0 12px 28px -18px color-mix(in oklab, var(--foreground) 45%, transparent);
 }
 
@@ -141,6 +149,83 @@
   box-shadow: var(--shadow-paper);
 }
 
+@utility section-title {
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+@utility preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@utility backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@utility hero-lacquer {
+  background:
+    radial-gradient(
+      120% 80% at 50% 110%,
+      color-mix(in oklab, var(--seal) 55%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      60% 50% at 15% 10%,
+      color-mix(in oklab, var(--gold) 18%, transparent) 0%,
+      transparent 70%
+    ),
+    linear-gradient(180deg, var(--ink) 0%, var(--lacquer) 100%);
+}
+
+@utility text-gold-sheen {
+  background: linear-gradient(100deg, var(--gold) 20%, oklch(0.9 0.08 88) 45%, var(--gold) 70%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sheen 6s ease-in-out infinite;
+}
+
+@keyframes sheen {
+  0%,
+  100% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0% 0;
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
 @keyframes ink-bleed {
   0% {
     opacity: 0;
@@ -182,6 +267,11 @@
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
   }
 }

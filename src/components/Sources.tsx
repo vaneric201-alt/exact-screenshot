@@ -1,3 +1,7 @@
+import { useRef } from "react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { SectionHeader } from "./SectionHeader";
+
 const primary = [
   "Phạm Diệp, Hậu Hán thư – Hoạn giả liệt truyện, thế kỷ V.",
   "Thẩm Quát, Mộng Khê bút đàm, khoảng 1088.",
@@ -17,17 +21,22 @@ const secondary = [
 ];
 
 export function Sources() {
-  return (
-    <section id="nguon" className="border-t border-border bg-[var(--paper-deep)]">
-      <div className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-3xl sm:text-[2.5rem]">Nguồn tham khảo</h2>
-        <p className="mt-1 text-sm text-muted-foreground">Phụ trách: Trần Minh Tuấn</p>
-        <div className="rule-brush mt-6" />
+  const root = useRef<HTMLElement>(null);
+  useScrollReveal(root);
 
-        <div className="mt-8 grid gap-10 md:grid-cols-2">
-          <div>
+  return (
+    <section
+      id="nguon"
+      ref={root}
+      className="relative overflow-hidden border-t border-border bg-[var(--paper-deep)]"
+    >
+      <div className="mx-auto max-w-6xl px-4 py-20 sm:py-28">
+        <SectionHeader title="Nguồn tham khảo" subtitle="Phụ trách: Trần Minh Tuấn" ghost="典" />
+
+        <div className="mt-10 grid gap-10 md:grid-cols-2">
+          <div data-reveal="left" className="paper-card p-6">
             <h3 className="text-xl">Nguồn sơ cấp</h3>
-            <ol className="mt-3 space-y-2 text-[0.98rem]">
+            <ol data-reveal-stagger className="mt-4 space-y-3 text-[0.98rem]">
               {primary.map((s, i) => (
                 <li key={s}>
                   <span className="text-primary">{i + 1}.</span> {s}
@@ -35,9 +44,9 @@ export function Sources() {
               ))}
             </ol>
           </div>
-          <div>
+          <div data-reveal="right" className="paper-card p-6">
             <h3 className="text-xl">Nguồn thứ cấp</h3>
-            <ol className="mt-3 space-y-2 text-[0.98rem]">
+            <ol data-reveal-stagger className="mt-4 space-y-3 text-[0.98rem]">
               {secondary.map((s, i) => (
                 <li key={s}>
                   <span className="text-primary">{i + 1}.</span> {s}
@@ -47,9 +56,9 @@ export function Sources() {
           </div>
         </div>
 
-        <p className="mt-8 text-sm text-muted-foreground">
-          Nguồn ảnh: các hình minh họa trong bài do nhóm dựng lại theo phong cách tranh thủy mặc, dựa trên mô tả
-          trong các tài liệu nêu trên; không phải ảnh chụp hiện vật gốc.
+        <p data-reveal="up" className="mt-8 text-sm text-muted-foreground">
+          Nguồn ảnh: các hình minh họa trong bài do nhóm dựng lại theo phong cách tranh thủy mặc,
+          dựa trên mô tả trong các tài liệu nêu trên; không phải ảnh chụp hiện vật gốc.
         </p>
       </div>
     </section>
