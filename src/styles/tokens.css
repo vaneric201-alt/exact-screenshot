@@ -1,0 +1,39 @@
+/* Design tokens — design.md §3–§6. Only these colours are used (images excepted). */
+:root {
+  --giay: #efe6d2; /* nền chính — be giấy tuyên */
+  --giay-sang: #f7f1e3; /* nền phụ, lòng thẻ */
+  --giay-cu: #e2d3b2; /* mảnh giấy cổ */
+  --muc: #1f2326; /* chữ, nét rồng */
+  --muc-nhat: #4a4f52; /* chữ phụ */
+  --son: #b23a2b; /* đỏ son chu sa */
+  --tuong-cung: #8e2a22; /* đỏ tường cung — chỉ 3 khối lớn */
+  --vang-la: #b8903a; /* vàng lá — viền, hoa văn */
+  --vang-sang: #d9b86a; /* ánh vàng, điểm mắt rồng */
+
+  --font-display: "Noto Serif Display", "Noto Serif", Georgia, serif;
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-han: "Noto Serif TC", "Noto Serif SC", "Songti TC", serif;
+
+  --fs-hero: clamp(64px, 11vw, 200px);
+  --fs-han-khong-lo: clamp(160px, 38vh, 420px);
+  --fs-year: clamp(48px, 8vw, 128px);
+  --fs-h2: clamp(40px, 5vw, 72px);
+  --fs-h3: clamp(26px, 2.6vw, 36px);
+  --fs-body: clamp(18px, 1.35vw, 22px);
+  --fs-small: clamp(15px, 1vw, 17px);
+
+  --lh-body: 1.65;
+  --measure: 64ch;
+  --edge: 6vw;
+  --gap: clamp(16px, 2vw, 32px);
+  --block: clamp(56px, 8vh, 112px);
+
+  --shadow-paper: 0 18px 30px -18px rgba(60, 40, 20, 0.35);
+  --ease-ink: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 767px) {
+  :root {
+    --edge: 20px;
+  }
+}

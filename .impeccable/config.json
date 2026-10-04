@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/styles/global.css"
+        ],
+        "createdAt": "2026-09-27T16:24:20.486Z",
+        "reason": "user's design.md §9–11 specifies the Vietnam significance column with a 3px --son border (.sig__col--vietnam)"
+      }
+    ]
+  }
+}

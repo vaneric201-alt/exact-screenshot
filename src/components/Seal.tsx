@@ -1,42 +1,62 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { play } from "../lib/audio";
+import { reducedMotion } from "../lib/motion";
 
-export function Seal({ han, size = "md" }: { han: string; size?: "sm" | "md" | "lg" }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [stamped, setStamped] = useState(false);
+/**
+ * The vermilion seal: square, carved-negative characters in paper colour,
+ * roughened edge (filter #seal-rough in App). It "stamps" (1.6 → 1 with a
+ * small shake) when it enters the frame, or on demand via `stampNow`.
+ */
+export function Seal({
+  han,
+  size = "md",
+  stamp = "view",
+  stampNow = false,
+  className = "",
+}: {
+  han: string;
+  size?: "sm" | "md" | "lg";
+  stamp?: "view" | "none";
+  stampNow?: boolean;
+  className?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || stamp === "none" || reducedMotion()) return;
+    el.classList.add("seal--armed");
     const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setStamped(true);
+      ([e]) => {
+        if (e?.isIntersecting) {
+          el.classList.add("seal--stamped");
+          play("stamp", 150);
           io.disconnect();
         }
       },
-      { threshold: 0.4 },
+      { threshold: 0.6 },
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [stamp]);
 
-  const dim =
-    size === "lg"
-      ? "h-24 w-24 text-3xl"
-      : size === "sm"
-        ? "h-10 w-10 text-base"
-        : "h-16 w-16 text-xl";
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !stampNow || reducedMotion()) return;
+    el.classList.remove("seal--stamped");
+    void el.offsetWidth;
+    el.classList.add("seal--armed", "seal--stamped");
+    play("stamp", 150);
+  }, [stampNow]);
 
+  const chars = [...han];
   return (
-    <div
-      ref={ref}
-      aria-hidden
-      className={`${dim} ${stamped ? "animate-seal" : "opacity-0"} grid shrink-0 place-items-center rounded-sm bg-seal text-seal-foreground han leading-none tracking-tight`}
-      style={{
-        boxShadow: "inset 0 0 0 2px color-mix(in oklab, var(--background) 55%, transparent)",
-      }}
-    >
-      <span className="px-1 text-center">{han}</span>
-    </div>
+    <span ref={ref} aria-hidden className={`seal seal--${size} ${chars.length > 1 ? "seal--multi" : ""} ${className}`}>
+      <span className="seal__ink">
+        {chars.map((c, i) => (
+          <span key={i}>{c}</span>
+        ))}
+      </span>
+    </span>
   );
 }

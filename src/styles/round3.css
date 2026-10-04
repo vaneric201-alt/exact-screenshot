@@ -1,0 +1,1174 @@
+/* ==========================================================================
+   Round 3 (presentation 5/10): textbook cards over the Forbidden City flight,
+   3D invention emblems beside chapter titles, the fire-lance fast-forward,
+   the modern descendants in 3D, the explosion and fireworks transitions.
+   Loaded last; only additions and overrides.
+   ========================================================================== */
+
+/* ---------- textbook cards over the flyover ---------- */
+.hero-track {
+  height: 1400vh;
+}
+.hero-track--still {
+  height: auto;
+}
+.sgk {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+/* one slide per building: a lacquer panel on the left, bullets beside archival images */
+.sgk__slide {
+  position: absolute;
+  left: var(--edge);
+  top: 92px;
+  bottom: 84px;
+  width: min(1000px, 60vw);
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(16px, 1.6vw, 28px);
+  padding: clamp(20px, 2.2vw, 34px);
+  border-radius: var(--r-lg);
+  color: #f6ead2;
+  background: linear-gradient(155deg, rgba(52, 18, 14, 0.9), rgba(24, 10, 8, 0.84));
+  border: 1px solid rgba(217, 184, 106, 0.45);
+  box-shadow:
+    0 40px 80px -36px rgba(0, 0, 0, 0.75),
+    inset 0 1px 0 rgba(255, 230, 180, 0.08);
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  will-change: opacity, transform;
+}
+.sgk__slide--text {
+  grid-template-columns: 1fr;
+  width: min(760px, 52vw);
+}
+.sgk__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.sgk__kicker {
+  margin: 0 0 12px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgba(217, 184, 106, 0.85);
+}
+.sgk__heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 2.2vw, 40px);
+  line-height: 1.12;
+  color: #ffe9b8;
+}
+.sgk__sub {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(17px, 1.3vw, 22px);
+  color: var(--vang-sang);
+}
+.sgk__bullets {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+.sgk__bullets li {
+  position: relative;
+  padding-left: 22px;
+  font-size: clamp(15.5px, 1.04vw, 19px);
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+.sgk__bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 8px;
+  height: 8px;
+  rotate: 45deg;
+  background: var(--vang-sang);
+  box-shadow: 0 0 0 3px rgba(217, 184, 106, 0.18);
+}
+.sgk__bullets cite {
+  font-style: italic;
+}
+.sgk__source {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  background: rgba(217, 184, 106, 0.1);
+  border-left: 3px solid var(--vang-sang);
+  font-size: clamp(14.5px, 0.95vw, 16.5px);
+  line-height: 1.5;
+}
+.sgk__source p {
+  margin: 0;
+}
+.sgk__source strong {
+  color: var(--vang-sang);
+}
+.sgk__source footer {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(246, 234, 210, 0.72);
+}
+.sgk__source cite {
+  font-style: italic;
+}
+.sgk__count {
+  margin: auto 0 0;
+  padding-top: 12px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(246, 234, 210, 0.5);
+}
+.sgk__media {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+  min-height: 0;
+}
+.sgk__media .ink-image {
+  margin: 0;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: #1b0d0a;
+  box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.8);
+}
+.sgk__media .ink-image img {
+  border-radius: 0;
+}
+.sgk__media figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 10px 8px;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: #fff4dc;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
+}
+.sgk__media--3 {
+  grid-template-columns: 1fr 1fr;
+}
+.sgk__media--3 .ink-image:first-child {
+  grid-column: 1 / -1;
+}
+.sgk__img--book::after {
+  content: "SGK";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #2a1408;
+  background: var(--vang-sang);
+}
+/* the building's name, as in a travel film */
+.place {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.place__name {
+  position: absolute;
+  right: calc(var(--edge) * 0.8);
+  bottom: 54px;
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  color: #fff;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.75),
+    0 0 2px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+}
+.place__han {
+  font-family: var(--font-han);
+  font-size: clamp(30px, 2.8vw, 48px);
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+.place__han::first-letter {
+  color: #e2483a;
+}
+.place__vi {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 1.4vw, 24px);
+}
+.place__en {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+.hero-dip {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #050302;
+  opacity: 0;
+  pointer-events: none;
+}
+.sgk--still {
+  position: static;
+  display: grid;
+  gap: 20px;
+  padding: 40px var(--edge);
+  background: #1a0b08;
+}
+.sgk--still .sgk__slide {
+  position: static;
+  width: auto;
+  opacity: 1;
+  visibility: visible;
+}
+@media (max-width: 900px) {
+  .sgk__slide {
+    left: 12px;
+    right: 12px;
+    top: auto;
+    bottom: 104px;
+    width: auto;
+    max-height: 62vh;
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .sgk__media {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+  .place__name {
+    bottom: 18px;
+    right: 50%;
+    translate: 50% 0;
+  }
+}
+.hero-track--still .hero-sticky {
+  height: auto;
+  min-height: 100vh;
+}
+
+/* ---------- 3D emblem beside each chapter title ---------- */
+.open__emblem {
+  width: clamp(110px, 10vw, 168px);
+  height: clamp(110px, 10vw, 168px);
+  margin: -26px -14px -26px 4px;
+  flex: none;
+  filter: drop-shadow(0 14px 16px rgba(60, 40, 20, 0.28));
+}
+@media (max-width: 767px) {
+  .open__emblem {
+    width: 92px;
+    height: 92px;
+    margin: -10px -8px -10px 0;
+  }
+}
+
+/* ---------- fire-lance fast-forward ---------- */
+.lf {
+  position: relative;
+  background: #070504;
+}
+.lf__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.lf__canvas,
+.lf__fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.lf__fallback {
+  background: radial-gradient(circle at 60% 40%, #3a2414, #070504 70%);
+}
+.lf__photos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.lf__photo {
+  position: absolute;
+  right: 7vw;
+  top: 50%;
+  width: min(36vw, 560px);
+  margin: 0;
+  padding: 10px 10px 0;
+  background: #f4ead2;
+  border-radius: 6px;
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 210, 150, 0.25);
+  opacity: 0;
+  translate: 0 -50%;
+  transform-origin: 30% 70%;
+  transition:
+    opacity 0.5s var(--ease-ink),
+    transform 0.7s var(--ease-ink),
+    filter 0.7s var(--ease-ink);
+}
+.lf__photo img,
+.lf__today {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 3px;
+}
+.lf__today {
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.9), rgba(239, 230, 210, 0.9)),
+    #efe6d2;
+}
+.lf__photo figcaption {
+  padding: 10px 6px 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 3.2vw, 56px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #2a1a0e;
+}
+/* arrives out of the flame: from the muzzle, small and scorched, to full size */
+.lf__photo.is-on {
+  opacity: 1;
+  animation: lf-arrive 0.75s var(--ease-ink) both;
+}
+@keyframes lf-arrive {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--fx) - (100vw - 7vw - min(36vw, 560px) / 2)), calc(var(--fy) - 50vh)) scale(0.12) rotate(-14deg);
+    filter: brightness(3) sepia(1) blur(6px);
+  }
+  60% {
+    filter: brightness(1.4) sepia(0.4) blur(0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+/* earlier photographs stay behind, stacked and dimmed, like pages already turned */
+.lf__photo.is-past {
+  opacity: calc(0.55 - var(--k) * 0.12);
+  transform: translate(calc(var(--k) * -2.2vw), calc(var(--k) * -1.6vh)) rotate(calc(var(--k) * -3deg)) scale(calc(1 - var(--k) * 0.05));
+  filter: brightness(0.55) sepia(0.4);
+}
+.lf__photo--today.is-on figcaption {
+  color: var(--son);
+}
+.lf__lead {
+  position: absolute;
+  left: 50%;
+  top: 30vh;
+  translate: -50% 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(22px, 2vw, 34px);
+  color: #f3e3c2;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-ink);
+}
+.lf__lead.is-on {
+  opacity: 1;
+}
+.lf--still {
+  padding: 60px var(--edge);
+}
+.lf__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.lf__still {
+  margin: 0;
+  color: #f3e3c2;
+}
+.lf__still img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+@media (max-width: 767px) {
+  .lf__photo {
+    right: 50%;
+    translate: 50% -50%;
+    top: 36%;
+    width: 78vw;
+  }
+}
+
+/* ---------- the four inventions today ---------- */
+.ms {
+  position: relative;
+  height: 2600vh;
+  background: #05080f;
+}
+.ms__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.ms__canvas,
+.ms__fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ms__fallback {
+  background: radial-gradient(circle at 60% 45%, #1d2a3e, #05080f 70%);
+}
+.ms__intro {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  translate: -50% -50%;
+  margin: 0;
+  width: min(900px, 86vw);
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(30px, 3.4vw, 60px);
+  line-height: 1.15;
+  color: #f3e7c8;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-ink);
+  z-index: 2;
+}
+.ms__intro.is-on {
+  opacity: 1;
+}
+.ms__caption {
+  position: absolute;
+  left: var(--edge);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: min(480px, 35vw);
+  padding: 22px 26px;
+  border-radius: var(--r-lg);
+  color: #eef2f8;
+  background: linear-gradient(160deg, rgba(14, 22, 38, 0.82), rgba(6, 10, 20, 0.7));
+  border: 1px solid rgba(217, 184, 106, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  translate: 0 18px;
+  transition:
+    opacity 0.6s var(--ease-ink),
+    translate 0.6s var(--ease-ink);
+}
+.ms__caption.is-on {
+  opacity: 1;
+  translate: 0 0;
+}
+.ms__caption--top {
+  bottom: auto;
+  top: 12vh;
+  right: var(--edge);
+  left: auto;
+}
+.ms__from {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vang-sang);
+}
+.ms__from::after {
+  content: " →";
+}
+.ms__to {
+  margin: 6px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 2.4vw, 40px);
+  line-height: 1.1;
+  color: #fff4dc;
+}
+.ms__note {
+  margin: 12px 0 0;
+  font-size: clamp(15.5px, 1.05vw, 18px);
+  line-height: 1.55;
+  color: rgba(238, 242, 248, 0.88);
+}
+/* parade names: large beside the full-screen line-up, then tucked above the corner view */
+.ms__weapons {
+  position: absolute;
+  z-index: 2;
+  left: var(--edge);
+  top: 14vh;
+  width: min(460px, 36vw);
+  padding: 18px 22px;
+  border-radius: var(--r-md);
+  background: rgba(12, 16, 22, 0.72);
+  border: 1px solid rgba(217, 184, 106, 0.3);
+  color: #eef2f8;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.6s var(--ease-ink),
+    top 0.8s var(--ease-ink),
+    left 0.8s var(--ease-ink),
+    width 0.8s var(--ease-ink),
+    transform 0.8s var(--ease-ink);
+}
+.ms__weapons.is-big,
+.ms__weapons.is-corner {
+  opacity: 1;
+}
+.ms__weapons.is-corner {
+  top: auto;
+  bottom: calc(30vh + 36px);
+  left: 24px;
+  width: min(30vw, 420px);
+  transform: scale(0.92);
+  transform-origin: bottom left;
+}
+.ms__wtitle {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 1.4vw, 24px);
+  color: #fff4dc;
+}
+.ms__weapons ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+.ms__weapons li {
+  display: grid;
+  gap: 2px;
+  font-size: clamp(13.5px, 0.95vw, 16px);
+  line-height: 1.45;
+}
+.ms__weapons strong {
+  color: var(--vang-sang);
+}
+.ms__wcaption {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  color: rgba(238, 242, 248, 0.6);
+}
+.ms__flight {
+  position: absolute;
+  right: var(--edge);
+  bottom: 8vh;
+  z-index: 2;
+  margin: 0;
+  max-width: 34ch;
+  text-align: right;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(17px, 1.3vw, 22px);
+  color: rgba(238, 242, 248, 0.85);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-ink);
+}
+.ms__flight.is-on {
+  opacity: 1;
+}
+.ms__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 62% 42%, #ffffff 0%, #fff7e6 35%, #f7f1e3 100%);
+}
+.ms--still {
+  padding: 60px var(--edge);
+  color: #eef2f8;
+}
+.ms__list {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  list-style: none;
+}
+@media (max-width: 767px) {
+  .ms__caption,
+  .ms__caption--top {
+    left: 14px;
+    right: 14px;
+    top: auto;
+    bottom: 4vh;
+    width: auto;
+  }
+  .ms__weapons {
+    left: 14px;
+    right: 14px;
+    width: auto;
+  }
+  .ms__weapons.is-corner {
+    display: none;
+  }
+}
+
+/* ring intro: the title sits above the ring, the lit heir's name below it */
+.ms__intro {
+  top: 13vh;
+  translate: -50% 0;
+  font-size: clamp(24px, 2.5vw, 44px);
+  transition:
+    opacity 0.8s var(--ease-ink),
+    top 0.9s var(--ease-ink),
+    font-size 0.9s var(--ease-ink);
+}
+.ms__intro.is-all {
+  top: 9vh;
+  font-size: clamp(28px, 3vw, 52px);
+}
+.ms__ring {
+  position: absolute;
+  left: 50%;
+  top: 19vh;
+  translate: -50% 0;
+  z-index: 2;
+  margin: 0;
+  text-align: center;
+  color: #f3e7c8;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-ink);
+}
+.ms__ring.is-on {
+  opacity: 1;
+}
+.ms__ringfrom {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 14px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vang-sang);
+}
+.ms__ringname {
+  margin: 4px 0 0;
+  min-height: 1.15em;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(26px, 2.4vw, 42px);
+  line-height: 1.15;
+  color: #fff4dc;
+}
+.ms__dots {
+  position: absolute;
+  left: 50%;
+  bottom: 5vh;
+  translate: -50% 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-ink);
+}
+.ms__dots.is-on {
+  opacity: 1;
+}
+.ms__dots li {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  border: 1px solid rgba(217, 184, 106, 0.25);
+  color: rgba(243, 231, 200, 0.45);
+  transition:
+    color 0.4s,
+    background-color 0.4s,
+    border-color 0.4s;
+}
+.ms__dots li.is-seen {
+  color: rgba(243, 231, 200, 0.75);
+}
+.ms__dots li.is-lit {
+  color: #1b1408;
+  background: var(--vang-sang);
+  border-color: var(--vang-sang);
+}
+
+/* fact bullets on each pair's card */
+.ms__facts {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid rgba(217, 184, 106, 0.25);
+  list-style: none;
+}
+.ms__facts li {
+  position: relative;
+  padding-left: 18px;
+  font-size: clamp(14.5px, 0.98vw, 17px);
+  line-height: 1.5;
+  color: rgba(238, 242, 248, 0.9);
+}
+.ms__facts li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  rotate: 45deg;
+  background: var(--vang-sang);
+}
+.ms__weapons.is-corner span,
+.ms__weapons.is-corner .ms__wcaption {
+  display: none;
+}
+.ms__weapons.is-corner ul {
+  gap: 4px;
+}
+
+/* the canyon: a card for the missile while the camera rides beside it */
+.ms__air {
+  position: absolute;
+  right: var(--edge);
+  top: 14vh;
+  z-index: 2;
+  width: min(420px, 32vw);
+  padding: 20px 24px;
+  border-radius: var(--r-md);
+  color: #eef2f8;
+  background: linear-gradient(160deg, rgba(10, 16, 26, 0.84), rgba(10, 16, 26, 0.66));
+  border: 1px solid rgba(217, 184, 106, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  translate: 24px 0;
+  transition:
+    opacity 0.5s var(--ease-ink),
+    translate 0.5s var(--ease-ink);
+}
+.ms__air.is-on {
+  opacity: 1;
+  translate: 0 0;
+}
+.ms__airtag {
+  margin: 0;
+  font-size: 12.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vang-sang);
+}
+.ms__airtitle {
+  margin: 6px 0 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 1.9vw, 32px);
+  line-height: 1.15;
+  color: #fff4dc;
+}
+.ms__air ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ms__air li {
+  position: relative;
+  padding-left: 18px;
+  font-size: clamp(14.5px, 0.98vw, 17px);
+  line-height: 1.5;
+}
+.ms__air li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  rotate: 45deg;
+  background: var(--vang-sang);
+}
+.ms__aircap {
+  position: absolute;
+  left: var(--edge);
+  bottom: 6vh;
+  z-index: 2;
+  margin: 0;
+  max-width: 46ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(15px, 1.1vw, 19px);
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-ink);
+}
+.ms__aircap.is-on {
+  opacity: 0.92;
+}
+
+/* the montage: four framed pairs that draw back into the corners of the paper */
+.ms__montage {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+.ms__montage.is-on {
+  opacity: 1;
+}
+.ms__cell {
+  position: absolute;
+  box-sizing: border-box;
+  border: 1px solid rgba(217, 184, 106, 0.55);
+  box-shadow: 0 18px 40px -24px rgba(40, 28, 12, 0.6);
+}
+.ms__celllabel {
+  position: absolute;
+  left: 14px;
+  bottom: 12px;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(6, 10, 20, 0.72);
+  font-size: clamp(12.5px, 0.92vw, 16px);
+  color: rgba(243, 231, 200, 0.85);
+  white-space: nowrap;
+}
+.ms__celllabel strong {
+  color: #fff4dc;
+  font-weight: 600;
+}
+.ms__centre {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(36vw, 560px);
+  text-align: center;
+  color: var(--muc);
+  opacity: 0;
+}
+.ms__centrekicker {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--son);
+}
+.ms__centretitle {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 3.4vw, 60px);
+  line-height: 1.1;
+}
+.ms__centresub {
+  margin: 14px 0 0;
+  font-size: clamp(15px, 1.1vw, 19px);
+  color: var(--muc-nhat);
+}
+.ms__paper {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--giay-sang);
+}
+@media (max-width: 767px) {
+  .ms__caption {
+    top: auto;
+    transform: none;
+  }
+  .ms__air {
+    left: 14px;
+    right: 14px;
+    width: auto;
+    top: auto;
+    bottom: 12vh;
+  }
+  .ms__celllabel {
+    white-space: normal;
+    right: 10px;
+  }
+  .ms__centre {
+    width: 60vw;
+  }
+}
+
+/* the conclusion opens out of the explosion's white */
+.concl--after-flash {
+  background-image: linear-gradient(180deg, #f7f1e3 0, rgba(247, 241, 227, 0) 46vh);
+}
+
+/* ---------- fireworks ---------- */
+.fw {
+  position: relative;
+  height: 320vh;
+  background: #060812;
+}
+.fw__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 120%, #1a1730 0%, #060812 60%);
+}
+.fw__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.fw__caption {
+  position: absolute;
+  left: 50%;
+  bottom: 8vh;
+  translate: -50% 0;
+  margin: 0;
+  width: min(760px, 88vw);
+  text-align: center;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 1.8vw, 30px);
+  color: #f3e7c8;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.9);
+}
+.fw--still {
+  height: auto;
+}
+.fw--still .fw__sticky {
+  position: relative;
+  height: 40vh;
+}
+.sgk__media .ink-image {
+  position: relative;
+}
+.hero-caption {
+  left: var(--edge);
+  right: auto;
+  bottom: 22px;
+  text-align: left;
+  max-width: 60vw;
+}
+/* archival images on the slides are shown whole, never cropped */
+.sgk__media .ink-image img {
+  object-fit: contain;
+  background: #120806;
+}
+
+/* ---------- rewind: the timeline runs along the bottom, clear of the pages ---------- */
+.rewind__ribbon {
+  top: auto;
+  bottom: 3.5vh;
+  transform: none;
+}
+.rewind__stopline {
+  bottom: calc(3.5vh + 84px);
+}
+
+/* ---------- the invention, very large behind each chapter title ---------- */
+.open {
+  overflow: hidden;
+}
+.open__hero {
+  position: absolute;
+  z-index: 1;
+  right: -2vw;
+  top: 56%;
+  translate: 0 -50%;
+  width: min(86vh, 58vw);
+  height: min(86vh, 58vw);
+  pointer-events: none;
+  filter: drop-shadow(0 40px 50px rgba(60, 40, 20, 0.35));
+  animation: open-hero-in 1.4s var(--ease-ink) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+@keyframes open-hero-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82) translateY(6vh);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.open__plate,
+.open__lead {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 767px) {
+  .open__hero {
+    right: -18vw;
+    top: 30%;
+    width: 86vw;
+    height: 86vw;
+    opacity: 0.85;
+  }
+}
+
+/* the year the fire arrow has reached, large at the top like a film's timecode */
+.lf__year {
+  position: absolute;
+  top: 9vh;
+  left: 50%;
+  translate: -50% 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(56px, 7vw, 120px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #ffe3a8;
+  text-shadow:
+    0 0 30px rgba(255, 150, 60, 0.55),
+    0 4px 20px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-ink);
+  z-index: 2;
+}
+.lf__year.is-on {
+  opacity: 1;
+}
+/* at 2026 the year steps aside for the burst, and "Hiện nay" takes the screen */
+.lf__year.is-now {
+  top: 5vh;
+  font-size: clamp(36px, 4vw, 64px);
+  transition:
+    opacity 0.5s var(--ease-ink),
+    top 0.8s var(--ease-ink),
+    font-size 0.8s var(--ease-ink);
+}
+.lf__now {
+  position: absolute;
+  left: 50%;
+  bottom: 12vh;
+  translate: -50% 0;
+  z-index: 2;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(54px, 7.5vw, 132px);
+  line-height: 1;
+  color: #fff4dc;
+  text-shadow:
+    0 0 40px rgba(255, 190, 90, 0.7),
+    0 4px 24px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  scale: 0.85;
+  transition:
+    opacity 0.7s var(--ease-ink) 0.25s,
+    scale 0.9s var(--ease-ink) 0.25s;
+}
+.lf__now.is-on {
+  opacity: 1;
+  scale: 1;
+}
+
+/* ---------- the last firework, lit by hand, and the thanks ---------- */
+.ig {
+  position: relative;
+  height: 560vh;
+  background: #03040b;
+}
+.ig__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+.ig__canvas,
+.ig__fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.ig__fallback {
+  background: radial-gradient(circle at 50% 30%, #1e1a36, #03040b 70%);
+}
+.ig__caption {
+  position: absolute;
+  left: var(--edge);
+  bottom: 8vh;
+  z-index: 2;
+  margin: 0;
+  max-width: 40ch;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(17px, 1.35vw, 23px);
+  color: rgba(243, 231, 200, 0.9);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-ink);
+}
+.ig__caption.is-on {
+  opacity: 1;
+}
+.ig__thanks {
+  position: absolute;
+  left: 50%;
+  bottom: 14vh;
+  translate: -50% 0;
+  z-index: 2;
+  margin: 0;
+  width: min(1100px, 90vw);
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(40px, 5.6vw, 104px);
+  line-height: 1.08;
+  color: #fff4dc;
+  text-shadow:
+    0 0 36px rgba(255, 190, 90, 0.6),
+    0 4px 24px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  scale: 0.92;
+  transition:
+    opacity 1s var(--ease-ink),
+    scale 1.2s var(--ease-ink);
+}
+.ig__thanks.is-on {
+  opacity: 1;
+  scale: 1;
+}
+.ig--still {
+  padding: 18vh var(--edge);
+}
+.ig--still .ig__thanks {
+  position: static;
+  translate: none;
+}
